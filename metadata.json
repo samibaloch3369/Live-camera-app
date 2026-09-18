@@ -1,0 +1,6 @@
+{
+  "name": "Live Road Cams",
+  "description": "World Live Road Cameras streaming real traffic webcams worldwide across USA, UK, Japan, Pakistan, Germany, and Canada.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
