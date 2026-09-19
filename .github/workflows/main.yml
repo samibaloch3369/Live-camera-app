@@ -3,8 +3,6 @@ on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      JAVA_TOOL_OPTIONS: -Djava.awt.headless=true
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
@@ -12,8 +10,15 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
       - uses: gradle/actions/setup-gradle@v3
+      - name: Fix KSP headless bug
+        run: |
+          echo "org.gradle.jvmargs=-Xmx4g -Djava.awt.headless=true -Dfile.encoding=UTF-8" >> gradle.properties
+          echo "ksp.incremental=false" >> gradle.properties
       - name: Build APK
-        run: gradle assembleDebug -x validateSigningDebug --no-daemon
+        env:
+          JAVA_TOOL_OPTIONS: -Djava.awt.headless=true
+          GRADLE_OPTS: -Djava.awt.headless=true
+        run: gradle assembleDebug -x validateSigningDebug --no-daemon -Djava.awt.headless=true
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
